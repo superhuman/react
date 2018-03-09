@@ -439,6 +439,11 @@ const DOMRenderer = ReactFiberReconciler({
       parentInstance: Instance,
       child: Instance | TextInstance,
     ): void {
+      if (child.parentNode !== parentInstance) {
+        let parentText = parentInstance.outerHTML.slice(0, 100)
+        let childText = child.outerHTML.slice(0, 100)
+        Bugsnag.notifyException(new Error('Superhuman error removing DOM child'), {childText, parentText})
+      }
       parentInstance.removeChild(child);
     },
 
